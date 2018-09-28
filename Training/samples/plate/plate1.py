@@ -37,26 +37,20 @@ from keras.models import load_model
 #import floyd
 
 # Root directory of the project
-#ROOT_DIR = os.path.abspath("../../")
+
 DATA_DIR = '/cars/'
-#MODEL_DIR = '/floyd/input/mrcnn-model/'
-#MRCNN_DIR = '../input/'
 LOG_DIR = '/floyd/input/logs/'
 
 
 # Import Mask RCNN
-#print('Root_Dir: ', ROOT_DIR)
 print('sys path: ', sys.path)
 print('os.path: ', os.path)
-#print('MRCNN_DIR:', MRCNN_DIR)
 print('LOG_DIR: ', LOG_DIR)
-#print(ls +'MRCNN_DIR')
 
 from mrcnn.config import Config
 from mrcnn import model as modellib, utils
 
 # Path to trained weights file
-#COCO_WEIGHTS_PATH = os.path.join(MODEL_DIR, "mask_rcnn_coco.h5")
 try:
     COCO_WEIGHTS_PATH = '/model/mask_rcnn_coco.h5'
 except:
@@ -66,16 +60,12 @@ except:
 # through the command line argument --logs
 DEFAULT_LOGS_DIR = '/logs/'
 
-#DEFAULT_LOGS_DIR = os.path.join(ROOT_DIR, "logs")
-
-#DATASET_DIR = 'mount\datasets\plate'
-
 
 ############################################################
 #  Configurations
 ############################################################
 
-
+# aq marto STEPS_PER_EPOCH-s vcvlit. 2 nishnavs rom tito epoch-ze 2jer gadaivlis datas. 100 aris optimaluri value
 class PlateConfig(Config):
     """Configuration for training on the toy  dataset.
     Derives from the base Config class and overrides some values.
@@ -103,6 +93,7 @@ class PlateConfig(Config):
 
 class PlateDataset(utils.Dataset):
 
+    # aq itvirteba json faili, romelshic nomris koordinatebia mititebuli.
     def load_plate(self, dataset_dir, subset):
         """Load a subset of the Plate dataset.
         dataset_dir: Root directory of the dataset.
@@ -158,6 +149,7 @@ class PlateDataset(utils.Dataset):
                 width=width, height=height,
                 polygons=polygons)
 
+    # aq arafers ar vexebit
     def load_mask(self, image_id):
         """Generate instance masks for an image.
        Returns:
@@ -192,7 +184,7 @@ class PlateDataset(utils.Dataset):
         else:
             super(self.__class__, self).image_reference(image_id)
 
-
+# aq vcvlit marto epochs. 15-25 epoch aris kargi
 def train(model):
     """Train the model."""
     # Training dataset.
@@ -215,13 +207,9 @@ def train(model):
                 epochs=2,
                 layers='heads')
     print("Saving model and Weights")
-    #model.save('Cars.h5')
-    #model.save_weights('Cars_weights.h5')
-    # saver = tf.train.Saver()
-    # save_path = saver.save(sess, 'mrcnn/model.ckpt')
-    # print("Model saved in file: %s" % save_path)
 
 
+# es ar gvchirdeba
 def color_splash(image, mask):
     """Apply color splash effect.
     image: RGB image [height, width, 3]
@@ -241,7 +229,7 @@ def color_splash(image, mask):
         splash = gray.astype(np.uint8)
     return splash
 
-
+# es ar gvchirdeba
 def detect_and_color_splash(model, image_path=None, video_path=None):
     assert image_path or video_path
 
@@ -299,96 +287,20 @@ def detect_and_color_splash(model, image_path=None, video_path=None):
 ############################################################
 
 if __name__ == '__main__':
-    # import argparse
-    #
-    # # Parse command line arguments
-    # parser = argparse.ArgumentParser(
-    #     description='Train Mask R-CNN to detect plates.')
-    # parser.add_argument("command",
-    #                     metavar="<command>",
-    #                     help="'train' or 'splash'")
-    # parser.add_argument('--dataset', required=False,
-    #                     metavar="/path/to/plate/dataset/",
-    #                     help='Directory of the Plate dataset')
-    # parser.add_argument('--weights', required=True,
-    #                     metavar="/path/to/weights.h5",
-    #                     help="Path to weights .h5 file or 'coco'")
-    # parser.add_argument('--logs', required=False,
-    #                     default=DEFAULT_LOGS_DIR,
-    #                     metavar="/path/to/logs/",
-    #                     help='Logs and checkpoints directory (default=logs/)')
-    # parser.add_argument('--image', required=False,
-    #                     metavar="path or URL to image",
-    #                     help='Image to apply the color splash effect on')
-    # parser.add_argument('--video', required=False,
-    #                     metavar="path or URL to video",
-    #                     help='Video to apply the color splash effect on')
-    # args = parser.parse_args()
 
-    # # Validate arguments
-    # if args.command == "train":
-    #     assert args.dataset, "Argument --dataset is required for training"
-    # elif args.command == "splash":
-    #     assert args.image or args.video,\
-    #            "Provide --image or --video to apply color splash"
-
-    # print("Weights: ", args.weights)
-    # print("Dataset: ", args.dataset)
-    # print("Logs: ", args.logs)
-
-    # Configurations
-    # if args.command == "train":
     config = PlateConfig()
-    # else:
-    #     class InferenceConfig(PlateConfig):
-    #         # Set batch size to 1 since we'll be running inference on
-    #         # one image at a time. Batch size = GPU_COUNT * IMAGES_PER_GPU
-    #         GPU_COUNT = 1
-    #         IMAGES_PER_GPU = 1
-    #     config = InferenceConfig()
-    # config.display()
 
-    # Create model
-    # if args.command == "train":
     model = modellib.MaskRCNN(mode="training", config=config,
                                   model_dir = 'mrcnn')
-    # else:
-    #     model = modellib.MaskRCNN(mode="inference", config=config,
-    #                               model_dir=args.logs)
 
-    # Select weights file to load
-    # if args.weights.lower() == "coco":
     weights_path = COCO_WEIGHTS_PATH
-        # Download weights file
-    #     if not os.path.exists(weights_path):
-    #         utils.download_trained_weights(weights_path)
-    # elif args.weights.lower() == "last":
-    #     # Find last trained weights
-    #     weights_path = model.find_last()
-    # elif args.weights.lower() == "imagenet":
-    #     # Start from ImageNet trained weights
-    #     weights_path = model.get_imagenet_weights()
-    # else:
-    #     weights_path = args.weights
 
     # Load weights
     print("Loading weights ", weights_path)
-    # if args.weights.lower() == "coco":
-        # Exclude the last layers because they require a matching
-        # number of classes
+
     model.load_weights(weights_path, by_name=True, exclude=[
             "mrcnn_class_logits", "mrcnn_bbox_fc",
             "mrcnn_bbox", "mrcnn_mask"])
-    # else:
-    #     model.load_weights(weights_path, by_name=True)
 
-    # Train or evaluate
-    # if args.command == "train":
     train(model)
-    # elif args.command == "splash":
-    #     detect_and_color_splash(model, image_path=args.image,
-    #                             video_path=args.video)
-    # else:
-    #     print("'{}' is not recognized. "
-    #           "Use 'train' or 'splash'".format(args.command))
 

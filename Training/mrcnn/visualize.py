@@ -33,6 +33,7 @@ from mrcnn import utils
 #  Visualization
 ############################################################
 
+# ar vexebit
 def display_images(images, titles=None, cols=4, cmap=None, norm=None,
                    interpolation=None):
     """Display the given set of images, optionally with titles.
@@ -56,7 +57,7 @@ def display_images(images, titles=None, cols=4, cmap=None, norm=None,
         i += 1
     plt.show()
 
-
+# ar vexebit
 def random_colors(N, bright=True):
     """
     Generate random colors.
@@ -69,7 +70,7 @@ def random_colors(N, bright=True):
     random.shuffle(colors)
     return colors
 
-
+# aq alpha mivutite 1 rom maska ar yofiliyo gamchvirvale.
 def apply_mask(image, mask, color, alpha=1.0):
     """Apply the given mask to the image.
     """
@@ -80,7 +81,7 @@ def apply_mask(image, mask, color, alpha=1.0):
                                   image[:, :, c])
     return image
 
-
+# aq p = Polygon(verts, facecolor='w', edgecolor='none') es maqvs chasworebuli. 'w' xatavs tetr maskas
 def display_instances(image, boxes, masks, class_ids, class_names,
                       scores=None, title="",
                       figsize=(16, 16), ax=None,
@@ -168,7 +169,7 @@ def display_instances(image, boxes, masks, class_ids, class_names,
     if auto_show:
         plt.show()
 
-
+# ar vexebit
 def display_differences(image,
                         gt_box, gt_class_id, gt_mask,
                         pred_box, pred_class_id, pred_score, pred_mask,
@@ -206,7 +207,7 @@ def display_differences(image,
         colors=colors, captions=captions,
         title=title)
 
-
+# ar vexebit
 def draw_rois(image, rois, refined_rois, mask, class_ids, class_names, limit=10):
     """
     anchors: [n, (y1, x1, y2, x2)] list of anchors in image coordinates.
@@ -267,6 +268,7 @@ def draw_rois(image, rois, refined_rois, mask, class_ids, class_names, limit=10)
     print("Positive Ratio: {:.2f}".format(
         class_ids[class_ids > 0].shape[0] / class_ids.shape[0]))
 
+# ar vexebit
 
 # TODO: Replace with matplotlib equivalent?
 def draw_box(image, box, color):
@@ -280,6 +282,7 @@ def draw_box(image, box, color):
     image[y1:y2, x2:x2 + 2] = color
     return image
 
+# ar vexebit
 
 def display_top_masks(image, mask, class_ids, class_names, limit=4):
     """Display the given image and the top few class masks."""
@@ -304,6 +307,7 @@ def display_top_masks(image, mask, class_ids, class_names, limit=4):
     display_images(to_display, titles=titles, cols=limit + 1, cmap="Blues_r")
 
 
+# ar vexebit
 def plot_precision_recall(AP, precisions, recalls):
     """Draw the precision-recall curve.
 
@@ -319,6 +323,7 @@ def plot_precision_recall(AP, precisions, recalls):
     _ = ax.plot(recalls, precisions)
 
 
+# ar vexebit
 def plot_overlaps(gt_class_ids, pred_class_ids, pred_scores,
                   overlaps, class_names, threshold=0.5):
     """Draw a grid showing how ground truth objects are classified.
@@ -358,6 +363,8 @@ def plot_overlaps(gt_class_ids, pred_class_ids, pred_scores,
     plt.ylabel("Predictions")
 
 
+
+# ar vexebit
 def draw_boxes(image, boxes=None, refined_boxes=None,
                masks=None, captions=None, visibilities=None,
                title="", ax=None):
@@ -461,6 +468,7 @@ def draw_boxes(image, boxes=None, refined_boxes=None,
     ax.imshow(masked_image.astype(np.uint8))
 
 
+# ar vexebit
 def display_table(table):
     """Display values in a table format.
     table: an iterable of rows, and each row is an iterable of values.
@@ -502,7 +510,7 @@ def display_weight_stats(model):
             ])
     display_table(table)
 
-
+# es metodi inaxavs surats.
 def save_image(image, image_name, boxes, masks, class_ids, scores, class_names, filter_classs_names=None,
                scores_thresh=0.1, save_dir=None, mode=0):
     """
@@ -600,6 +608,8 @@ def save_image(image, image_name, boxes, masks, class_ids, scores, class_names, 
     masked_image.save(os.path.join(save_dir, '%s.jpg' % (image_name)))
     #return masked_image
 
+
+# es metodi abrunebs surats
 def return_image(image, image_name, boxes, masks, class_ids, scores, class_names, filter_classs_names=None,
                scores_thresh=0.1, save_dir=None, mode=0):
     """
